@@ -7,7 +7,16 @@
   <link rel="stylesheet" href="css/index.css">
 
   <!-- Document Title -->
-  <title>FLOWERS</title>
+  <title>FLOWERS FOR SOMEONE</title>
+
+  <script>
+  document.getElementById("openFlower").addEventListener("click", () => {
+    sessionStorage.setItem("playMusic", "yes");
+  });
+</script>
+
+<script src="js/index.js"></script>
+
 </head>
 
 <body>
@@ -26,12 +35,11 @@
         </path>
       </svg>
 
-      <span class="text">OPEN</span>
+      <span class="text">Open</span>
     </a>
   </div>
 
   <script src="js/index.js"></script>
 </body>
-
 
 </html>
