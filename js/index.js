@@ -1,5 +1,5 @@
 const title = document.querySelector('.title')
-const text = `I Have Something`.split('')
+const text = `I Have Something For U`.split('')
 
 // Create container for better responsive layout
 title.style.display = 'flex'
@@ -19,4 +19,5 @@ const textElements = document.querySelectorAll('.title span');
 textElements.forEach((element) => {
   const randomDelay = Math.random() * 3;
   element.style.animationDelay = `${randomDelay}s`;
+
 });
