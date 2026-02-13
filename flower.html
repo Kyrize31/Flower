@@ -13,10 +13,9 @@
 </head>
 
 <body class="not-loaded">
-  <audio id="bgm" preload="auto" loop>
+  <audio id="bgm" loop preload="auto">
   <source src="audio/music.mp3" type="audio/mpeg">
 </audio>
-
 
   <!-- Background -->
   <div class="night"></div>
@@ -321,36 +320,58 @@
 
   <!-- Title -->
   <h1 class="title"><span id="title"></span></h1>
-
-
 </body>
 
 </html>
 
 <!-- Import Javascript -->
- <script>
+<script>
+  const audio = document.getElementById("bgm");
+  const MAX_VOLUME = 0.6;
+  let fadeInterval = null;
+
+  function fadeIn() {
+    clearInterval(fadeInterval);
+    audio.volume = 0;
+    audio.play().catch(() => {}); // kalau diblokir browser, kita diam
+    fadeInterval = setInterval(() => {
+      if (audio.volume < MAX_VOLUME) {
+        audio.volume = Math.min(audio.volume + 0.02, MAX_VOLUME);
+      } else {
+        clearInterval(fadeInterval);
+      }
+    }, 100);
+  }
+
+  function fadeOut() {
+    clearInterval(fadeInterval);
+    fadeInterval = setInterval(() => {
+      if (audio.volume > 0.02) {
+        audio.volume -= 0.02;
+      } else {
+        audio.volume = 0;
+        audio.pause();
+        clearInterval(fadeInterval);
+      }
+    }, 100);
+  }
+
+  // autoplay saat halaman dibuka
   window.addEventListener("load", () => {
-    const audio = document.getElementById("bgm");
+    fadeIn();
+  });
 
-    if (sessionStorage.getItem("playMusic") === "yes") {
-      audio.volume = 0;
-
-      audio.play().then(() => {
-        let v = 0;
-        const fade = setInterval(() => {
-          v += 0.02;
-          audio.volume = Math.min(v, 0.6);
-          if (v >= 0.6) clearInterval(fade);
-        }, 100);
-      }).catch(err => {
-        console.log("❌ Audio blocked:", err);
-      });
-
-      sessionStorage.removeItem("playMusic");
+  // fade out kalau tab ditinggal / halaman ditutup
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      fadeOut();
+    } else {
+      fadeIn();
     }
   });
 </script>
 
 <script src="js/main.js"></script>
+
 
 <script src="js/main.js"></script>
